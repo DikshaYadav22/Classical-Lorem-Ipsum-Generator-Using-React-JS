@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
+import { Form, Button } from "reactstrap";
+import data from "./data";
 
-function App() {
+const App = () => {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let amount = parseInt(count);
+
+    if (count <= 0) {
+      amount = 1;
+    }
+
+    if (count > data.length - 1) {
+      amount = data.length - 1;
+    }
+
+    setText(data.slice(0, amount));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <section>
+        <article>
+          <Form onSubmit={(e) => handleSubmit(e)}>
+            <label>Paragraphs :</label>
+            <input
+              type="number"
+              value={count}
+              onChange={(e) => setCount(e.target.value)}
+            />
+            <Button color="warning" type="submit">
+              Generate
+            </Button>
+          </Form>
+        </article>
+        <article>
+          {text.map((item, index) => {
+            return <p>{item}</p>;
+          })}
+        </article>
+      </section>
     </div>
   );
-}
+};
 
 export default App;
